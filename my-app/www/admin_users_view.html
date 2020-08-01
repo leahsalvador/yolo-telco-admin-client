@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+    <title>Telco</title>
+    <style>
+        .logout {
+            text-align: right;
+        }
+
+        .per_task {
+            display: list-item;
+            margin-left: 10px;
+        }
+
+        .l {
+            position: absolute;
+            top: 25%;
+            left: 35px;
+            margin-left: 10px;
+            transform: translate(-25%);
+            top: 15px;
+            width: 100px;
+        }
+    </style>
+
+</head>
+
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header" style="position:relative;">
+            <b class="l" style="color:#0981b5;">YOLO-TELCO</b>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-users fa-fw"></i> Employees Details</a>
+                    </li>
+                    <li>
+                        <a href="force_logout.html" class="force_logout"><i class="fa fa-user fa-fw"></i> Logged-in
+                            Employees</a>
+                    </li>
+                    <li>
+                        <a href="sites.html"><i class="fa fa-globe fa-fw"></i>Sites</a>
+                    </li>
+                    <li>
+                        <a href="site_task_status.html"><i class="fa fa-tasks fa-fw"></i> Manage Tasks</a>
+                    </li>
+                    
+                    <li>
+                        <a href="manage_video.html"><i class="fa fa-video-camera fa-fw"></i> <span> Manage Video</span></a>
+                    </li>
+
+                    <!-- <li>
+                            <a href="sending_vid.html"><i class="fa fa-video-camera fa-fw"></i> <span>Send Video
+                                    Instructions for Task</span></a>
+                        </li> -->
+                    <li>
+                        <a href="manage_team.html"><i class="fa fa-list fa-fw"></i> Manage Team</a>
+                    </li>
+
+
+                    <li>
+                        <a href="admin_map_view.html"><i class="fa fa-map-marker fa-fw"></i> Map</a>
+                    </li>
+
+
+                    <li>
+                        <a href="invoice.html"><i class="fa fa-money fa-fw"></i> Invoice</a>
+                    </li>
+
+                    <li>
+                        <a href="#" id="logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Employees</h2>
+            </div>
+            <!-- /.col-lg-12 -->
+
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_user">Add
+                            User</button>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover"
+                            id="dataTables-users">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>phone</th>
+                                    <th>E-mail</th>
+                                    <th>Password</th>
+                                    <th>Skills</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tableData_userTable">
+
+                            </tbody>
+
+                        </table>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+
+
+
+<div class="modal fade sign_up_modal" id="add_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="add_form_with_skill">
+                    <div class="form-group">
+
+                        <label for="name" class="col-form-label">First Name:</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Last Name:</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Address:</label>
+                        <input type="text" class="form-control" id="address" name="address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Phone:</label>
+                        <input type="number" class="form-control" name="phone" id="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Email:</label>
+                        <input type="email" class="form-control" name="email" id="email" type="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="date" name="date" value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skill" class="col-form-label">Skill/s</label>
+                        <table id="skill_fields" class="table table-bordered">
+                            <tr>
+                                <td><input type="text" id="" name="skill[]" class="class_skill form-control" value="">
+                                </td>
+                                <td><button id="add_skill_field" class="btn btn-success">+</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="append_user_latest_id"></div>
+                    <input type="hidden" name="user_group" id="user_group" class="form-control" value="1">
+
+            </div>
+            </form>
+
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" name="close" id="">Close</button>
+                <input type="button" id="register_user" class="btn btn-primary" name="register_user" value="Submit">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade sign_up_modal" id="edit_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close_edit_user_modal close" data-number="2"
+                    aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="edit_users_with_skills">
+                    <div class="form-group">
+                        <input type="hidden" id="edit_user_id" name="edit_user_id">
+                        <label for="name" class="col-form-label">First Name:</label>
+                        <input type="text" class="form-control" id="edit_first_name" name="edit_first_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Last Name:</label>
+                        <input type="text" class="form-control" id="edit_last_name" name="edit_last_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Address:</label>
+                        <input type="text" class="form-control" id="edit_address" name="edit_address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Phone:</label>
+                        <input type="number" class="form-control" name="edit_phone" id="edit_phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Email:</label>
+                        <input type="email" class="form-control" name="edit_email" id="edit_email" type="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Password:</label>
+                        <input type="text" class="form-control" id="edit_password" name="edit_password">
+                    </div>
+                    <label for="password" class="col-form-label">Skill/s</label>
+                    <table class="table table-bordered">
+                        <tbody class="edit_skill_table">
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="close_edit_user_modal btn btn-secondary " data-dismiss="modal" name="close"
+                    id="close">Close</button>
+                <input type="button" id="update_user" class="btn btn-primary" name="update" value="Submit">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- jQuery -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="dist/js/sb-admin-2.js"></script>
+
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script>
+
+
+
+    $(document).ready(function () {
+
+        var table_user = $('#dataTables-users').DataTable(
+            {
+                "ajax": "http://34.74.113.124/telco/authentication/json_users",
+                "columns": [
+                    { 'data': "user_id" },
+                    {
+                        'data': null, 'render': function (data, type, row) {
+                            return row.first_name + ' ' + row.last_name;
+                        }
+                    },
+
+                    { 'data': "address" },
+                    { 'data': "phone" },
+                    { 'data': "email" },
+                    { 'data': "password" },
+                    { 'data': "skills" },
+                    { 'data': "date_created" },
+
+                    {
+                        'data': null, 'render': function (data, type, row) {
+                            return '<a data-toggle="modal" data-target="#edit_user" title="Edit" class="edit_user"  data-user_id="' + row.user_id + '" data-first_name="' + row.first_name + '" data-last_name="' + row.last_name + '" data-address="' + row.address + '" data-phone="' + row.phone + '" data-email="' + row.email + '" data-password="' + row.password + '" data-skills="' + row.skills + '"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a title="Delete" class="delete_user" user_id="' + row.user_id + '""><span style="color:red;" class="glyphicon glyphicon-trash"></span></a>'
+                        }
+                    }
+
+                ], responsive: true, "order": [[0, "desc"]]
+            }
+        );
+
+        var skill_row = 1;
+        $(document).on('click', '#add_skill_field', function (e) {
+            e.preventDefault();
+            skill_row++;
+            let skill_fields = `<tr class="skill_row${skill_row}">
+                                    <td><input type="text" name="skill[]" class="class_skill form-control" /></td>
+                                    <td><button id="${skill_row}" class="btn btn-danger skill_field_button">X</button></td>
+                               </tr>`;
+            $('#skill_fields').append(skill_fields);
+        });
+
+        $(document).on('click', '.skill_field_button', function (e) {
+            e.preventDefault();
+            let skill_row = $(this).attr('id');
+            $('.skill_row' + skill_row).remove();
+        })
+
+
+
+        $('#register_user').click(function () {
+
+            var first_name = $('#first_name').val();
+            var last_name = $('#last_name').val();
+            var address = $('#address').val();
+            var phone = $('#phone').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var skill_form = $('#add_form_with_skill').serialize();
+            var date = new Date();
+
+            if (first_name == '' || last_name == '' || address == '' || phone == '' || email == '' || password == '') {
+                swal(
+                    'Warning',
+                    'Some fields are empty.',
+                    'warning'
+                )
+                return;
+            }
+
+            let errorFound = false;
+            $('[name="skill[]"]').each(function () {
+                if ($(this).val() == "") {
+                    swal(
+                        'Input error',
+                        'Some fields are empty. Please check.',
+                        'error'
+                    )
+                    errorFound = true;
+                }
+            });
+
+            if (errorFound == true) {
+                return;
+            }
+
+
+            $.ajax({
+                url: "http://34.74.113.124/telco/authentication/register",
+                method: 'POST',
+                data:
+                    skill_form,
+                success: function (data) {
+                    swal(
+                        'Success!',
+                        'Created a new user.',
+                        'success'
+                    ).then(function () {
+                        $('#add_user').modal('hide');
+                        $('#first_name').val('');
+                        $('#last_name').val('');
+                        $('#address').val('');
+                        $('#phone').val('');
+                        $('#email').val('');
+                        $('#password').val('');
+                        table_user.ajax.reload();
+                    });
+                }
+
+            });
+
+        });//$('#register) closing ------------------
+
+
+        $(document).on('click', '.delete_user', function (e) {
+            e.preventDefault();
+            var user_id = $(this).attr('user_id')
+
+
+            var val0 = $(this).val();
+
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+
+                if (result.value) {
+
+
+
+                    var user_id = $(this).attr('user_id');
+
+                    $.ajax({
+                        url: 'http://34.74.113.124/telco/authentication/delete_user',
+                        data: {
+                            user_id: user_id
+                        },
+                        success: function (data) {
+                            // alert(data);
+                            if (data == "used") {
+                                swal(
+                                    'Warning',
+                                    'User is assigned in team as a leader.',
+                                    'warning'
+                                )
+                            } else {
+                                swal(
+                                    'Deleted!',
+                                    'User has been deleted.',
+                                    'success'
+                                ).then(function (data) {
+                                    table_user.ajax.reload();
+                                });
+                            }
+                        }
+                    });
+
+
+
+                }
+            });
+
+        });
+
+        //======================================================================================================================
+        $('#edit_user').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var user_id = button.data('user_id'); // Extract info from data-* attributes 
+            var first_name = button.data('first_name');
+            var last_name = button.data('last_name');
+            var address = button.data('address');
+            var phone = button.data('phone');
+            var email = button.data('email');
+            var passoword = button.data('password');
+            var skills = button.data('skills');
+
+
+
+            $('#edit_user_id').val(user_id);
+            $('#edit_first_name').val(first_name);
+            $('#edit_last_name').val(last_name);
+            $('#edit_address').val(address);
+            $('#edit_phone').val(phone);
+            $('#edit_email').val(email);
+            $('#edit_password').val(passoword);
+
+            var for_skill_i = 0;
+            var array_skills = skills.split(", ");
+            let skills_edit_field = ``;
+            for (for_skill_i; for_skill_i < array_skills.length; for_skill_i++) {
+                skills_edit_field = `<tr id="edit_skill_row_default${for_skill_i}">
+                                        <td><input type="type" name="edit_skill[]" class="form-control" value="${array_skills[for_skill_i]}"></td>
+                                        <td><button type="button" class="btn btn-danger edit_remove_field_row_default" id="${for_skill_i}">X</button></td>
+                                    </tr>`;
+                $('.edit_skill_table').append(skills_edit_field);
+            }
+            let row_add_skill_field_edit = `<tr class="add_button_on_adding_field_skill"><td colspan="2"><button class="btn btn-warning add_skill_field_for_edit">+</button</td></tr>`;
+            $('.edit_skill_table').append(row_add_skill_field_edit);
+        });
+        //===================================================================================================================================================================================
+
+        var edit_skill_row_add_i = 0;
+        $(document).on('click', '.add_skill_field_for_edit', function (e) {
+            e.preventDefault();
+            edit_skill_row_add_i++;
+            $('.add_button_on_adding_field_skill').remove();
+            let edit_skill_row_field_add = `<tr id="edit_skill_row_additional${edit_skill_row_add_i}" class="">
+                                                <td><input type="type" name="edit_skill[]" class="form-control" value=""></td>
+                                                <td><button type="button" class="btn btn-danger edit_remove_field_row" id="${edit_skill_row_add_i}">X</button></td>
+                                            </tr>`;
+            $('.edit_skill_table').append(edit_skill_row_field_add);
+            let row_add_skill_field_edit = `<tr class="add_button_on_adding_field_skill "><td colspan="2"><button class="btn btn-warning add_skill_field_for_edit">+</button</td></tr>`;
+            $('.edit_skill_table').append(row_add_skill_field_edit);
+        });
+        //==================================================================================================================================================================================
+
+        $(document).on('click', '.edit_remove_field_row_default', function (e) {
+            e.preventDefault();
+            let skill_row_default = $(this).attr('id');
+            $('#edit_skill_row_default' + skill_row_default).remove();
+        });
+        //===================================================================================================================================================================================
+
+        $(document).on('click', '.edit_remove_field_row', function (e) {
+            e.preventDefault();
+            let skill_row_additional = $(this).attr('id');
+            $('#edit_skill_row_additional' + skill_row_additional).remove();
+        });
+        //==================================================================================================================================================================================
+        $(document).on('click', '.close_edit_user_modal', function (e) {
+            e.preventDefault();
+            $('.edit_skill_table').html('');
+        });
+        //===================================================================================================================================================================================
+
+        $('#update_user').click(function () {
+            var user_id = $('#edit_user_id').val();
+            var first_name = $('#edit_first_name').val();
+            var last_name = $('#edit_last_name').val();
+            var address = $('#edit_address').val();
+            var phone = $('#edit_phone').val();
+            var email = $('#edit_email').val();
+            var password = $('#edit_password').val();
+            var edit_users_with_skills = $('#edit_users_with_skills').serialize();
+
+            let errorFound = false;
+            $('[name="edit_skill[]"]').each(function () {
+                if ($(this).val() == "") {
+                    swal(
+                        'Input error',
+                        'Some fields are empty. Please check.',
+                        'error'
+                    )
+                    errorFound = true;
+                }
+            });
+
+            if (errorFound == true) {
+                return;
+            }
+
+            $.ajax({
+                url: "http://34.74.113.124/telco/authentication/update_user",
+                method: 'POST',
+                data: edit_users_with_skills, success: function (data) {
+                    if (data == 'no skills') {
+                        swal(
+                            'Warning!',
+                            'Please make sure to add skill',
+                            'warning'
+                        )
+                        return;
+                    }
+
+                    if (data == "Update") {
+                        swal(
+                            'Success!',
+                            'User updated.',
+                            'success'
+                        ).then(function () {
+                            $('#edit_user').modal('hide');
+                            $('.edit_skill_table').html('');
+                            table_user.ajax.reload();
+                        });
+                    } else {
+                        swal(
+                            'Error!',
+                            'Server Error Occured',
+                            'Error'
+                        )
+                    }
+
+                }
+
+            });
+
+        });//$('#register) closing ------------------
+
+
+        $(document).on('click', '.delete_user', function (e) {
+            e.preventDefault();
+            var user_id = $(this).attr('user_id')
+
+
+            var val0 = $(this).val();
+
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+
+                if (result.value) {
+
+                    var user_id = $(this).attr('user_id');
+                    $.post('http://34.74.113.124/telco/authentication/delete_user', { user_id: user_id }, function (data) {
+                        if (data == "used") {
+                            swal(
+                                'Warning',
+                                'User is assigned in team as a leader.',
+                                'warning'
+                            )
+                        } else {
+                            swal(
+                                'Deleted!',
+                                'User has been deleted.',
+                                'success'
+                            ).then(function (data) {
+                                table_user.ajax.reload();
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+
+        $(document).on('click', '#logout', function () {
+            var video_id = $(this).attr('id');
+            swal({
+                title: 'Are you sure?',
+                text: "You want logout?",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Logout!'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "./index.html";
+                }
+            });
+        });
+
+
+    });// document ready closing
+</script>
+
+</body>
+
+</html>

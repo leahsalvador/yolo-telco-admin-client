@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+    <title>Telco</title>
+    <style>
+        .logout {
+            text-align: right;
+        }
+
+        .per_task {
+            display: list-item;
+            margin-left: 10px;
+        }
+
+        .l {
+            position: absolute;
+            top: 25%;
+            left: 35px;
+            margin-left: 10px;
+            transform: translate(-25%);
+            top: 15px;
+            width: 100px;
+        }
+
+        .seleting_site_modal_wrapper {
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-shadow: 1px 1px rgba(0, 0, 0, .05);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+        }
+
+        .grid-item {
+            margin: 10px;
+        }
+
+
+
+        @media only screen and (max-width: 768px) {
+            .grid-container {
+                display: grid;
+                grid-template-columns: auto;
+            }
+
+        }
+    </style>
+</head>
+
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header" style="position:relative;">
+            <b class="l" style="color:#0981b5;">YOLO-TELCO</b>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                    </li>
+                    <li>
+                        <a href="admin_users_view.html"><i class="fa fa-users fa-fw"></i> Employees Details</a>
+                    </li>
+                    <li>
+                        <a href="force_logout.html" class="force_logout"><i class="fa fa-user fa-fw"></i> Logged-in
+                            Employees</a>
+                    </li>
+                    <li>
+                        <a href="sites.html"><i class="fa fa-globe fa-fw"></i>Sites</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-tasks fa-fw"></i> Manage Tasks</a>
+                    </li>
+                    
+                    <li>
+                        <a href="manage_video.html"><i class="fa fa-video-camera fa-fw"></i> <span> Manage Video</span></a>
+                    </li>
+
+                    <li>
+                        <a href="manage_team.html"><i class="fa fa-list fa-fw"></i> Manage Team</a>
+                    </li>
+
+
+                    <li>
+                        <a href="admin_map_view.html"><i class="fa fa-map-marker fa-fw"></i> Map</a>
+                    </li>
+
+
+                    <li>
+                        <a href="invoice.html"><i class="fa fa-money fa-fw"></i> Invoice</a>
+                    </li>
+
+                    <li>
+                        <a href="#" id="logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+    </nav>
+
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Manage Site Task Status/Evidences</h2>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+
+                        <div style="margin-bottom: 10px;" class="input-group custom-search-form">
+                            <input type="text" id="search_site_name" class="form-control" value=""
+                                placeholder="Search for Site Name ...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="search_btn" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+
+                        <button class="btn btn-primary" data-target="#site_add_task_modal" data-toggle="modal"><i
+                                class="fa fa-tasks fa-fw"></i> Create Task
+                        </button>
+                        <div class="append_tasks"></div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<div class="modal fade" id="site_add_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Add task to <span class="append_site_name">?</span></h5>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group choose_site_from_the_list_of_all_site_div">
+                    For what site is the task you want to create?
+                    <div class="seleting_site_modal_wrapper">
+                        <div style="margin-bottom: 10px;" class="input-group custom-search-form">
+                            <input type="text" id="search_site_for_creating_task" class="form-control" value=""
+                                placeholder="Search for Site Name ...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="search_btn" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="append_all_sites">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toggle_this_on_site_choose">
+                    <form>
+                        <input type="hidden" id="site_id" name="site_id" value="">
+                        <input type="text" id="site_name" class="form-control site_name" name="site_name" value=""
+                            style="margin-bottom:4px;">
+                        <textarea id="site_task" class="form-control" type="text" name="task" title="Add Task"
+                            placeholder="Add Task" /></textarea>
+
+                        <input style="margin-top:4px;margin-bottom: 4px;" onfocus="(this.type='date')"
+                            onfocusout="(this.type='text')" class="form-control" id="site_date_given_task"
+                            name="site_date_given_task" value="" placeholder="Date">
+
+                        <textarea class="form-control" type="text" name="skills_required_textarea" title="Add Task"
+                            id="skills_required_textarea"
+                            placeholder="Skills Required, please seperate each skills with a comma, space [, ] " /></textarea>
+
+                        <label class="required"><input type="checkbox" id="site_video_required"
+                                value="required">&nbsp;&nbsp;Require VideoEvidence</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="required"><input type="checkbox" id="site_image_required"
+                                value="required">&nbsp;&nbsp;Require ImageEvidence</label>
+                        <label class="required"><input type="checkbox" id="site_document_required"
+                                value="required">&nbsp;&nbsp;Require DocumentEvidence</label>
+                    </form>
+
+                    <div class="form-group">
+                        <button style="width:100%" type="button" id="add_task_for_site"
+                            class="btn btn-success">Add</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="edit_site_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false">
+    <div class="modal-dialog role document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close close_edit_site_modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Task <span class="append_name_for-edit"></span></h5>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="edit_site_id_for_site_task" class="edit_site_id_for_site_task" value="">
+                <input type="hidden" id="edit_site_task_id" name="edit_site_task_id" value="">
+                <textarea id="edit_site_task" class="form-control edit_site_task" type="text" name="edit_site_task"
+                    title="Add Task" placeholder="Add Task" value="" /></textarea>
+                <input style="margin-top:4px;" type="date" class="form-control" id="edit_site_date_given_task"
+                    name="edit_site_date_given_task" value="">
+                <label><input type="checkbox" id="edit_site_video_required" value="required">&nbsp;&nbsp;Require Video
+                    Evidence</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label><input type="checkbox" id="edit_site_image_required" value="required">&nbsp;&nbsp;Require Image
+                    Evidence</label>
+                <label><input type="checkbox" id="edit_site_document_required" value="required">&nbsp;&nbsp;Require Document
+                    Evidence</label>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal"
+                        class="btn btn-secondary close_edit_site_modal">Close</button>
+                    <button type="button" id="update_site_task" class="btn btn-info">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reschedule_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false">
+    <div class="modal-dialog role document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close close_edit_site_modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Reschedule Task<span class="append_name_for-edit"></span>
+                </h5>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="reschedule_task_id" value="">
+                <div class="form-group">
+                    <label>Change Task Date</label>
+                    <input type="date" class="form-control" id="reschedule_task_date" value>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal"
+                    class="btn btn-secondary close_edit_site_modal">Close</button>
+                <button type="button" id="rescheulde_update" class="btn btn-primary">Re-schedule</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="evidence_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Evidence</h5>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="evidence_task_id" name="evidence_task_id" value="">
+                <div id="append_evidence"></div>
+
+            </div>
+            <div class="modal-footer">
+                <input type="button" id="set_as_done" class="btn btn-success" task_id="" user_id="" site_id=""
+                    team_id="" site_task="" class="" value="Approve">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="send_to_choose" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">Send Video</h4>
+            </div>
+            <div class="modal-body">
+                <form id="send_choose">
+                    <div id="choose_loading"></div>
+                    <input type="hidden" id="user_list1" name="users">
+                    <input type="hidden" id="site_task_id1" name="site_task_id">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Choose file:</label>
+                        <input type="file" class="form-control" id="choose_vid" name="choose_vid">
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Video Title:</label>
+                        <input type="text" class="form-control" id="video_title" name="video_title">
+                    </div>
+                    <!-- <label for="name" class="col-form-label">Send to:</label>
+                    <div class="select_user1"></div> -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" name="close"
+                    id="close">Close</button>
+                <button id="send_c" style="background-color:#0981b5;color:#fff;" class="btn">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade sign_up_modal" id="send_to" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">Record Video</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="add_form">
+                    <input type="hidden" id="users_list">
+                    <input type="hidden" id="site_task_id">
+                    <input type="hidden" id="video_file">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Video Title:</label>
+                        <input type="text" class="form-control" id="video_name" name="video_name">
+                    </div>
+                    <!-- <label for="name" class="col-form-label">Send to:</label>
+                    <div class="select_user"></div> -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" name="close"
+                    id="close">Close</button>
+                <button id="send_video" style="background-color:#0981b5;color:#fff;" class="btn">Send</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
+
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="vendor/metisMenu/metisMenu.min.js"></script>
+
+<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="vendor/datatables-responsive/dataTables.responsive.js"></script>
+<script src="dist/js/sb-admin-2.js"></script>
+
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/record.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script>
+    function today() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = "0" + mm;
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        return today;
+    }
+
+
+    function createRecordButton(user_id, task_id, record, text, cb) {
+        return $('<button style="margin:6px;" class="btn btn-primary ' + record + '" id="' + user_id + '" site_task_id="' + task_id + '">' + text + '</button>').on('click', cb);
+    }
+    function creatBrowseButton(user_id, task_id, browse, text, cb) {
+        return $('<button style="margin:6px;" class="btn btn-primary ' + browse + '" data-id="' + user_id + '" data-site_task_id="' + task_id + '" data-toggle="modal" data-target="#send_to_choose">' + text + '</button> &nbsp;&nbsp;').on('click', cb);
+    }
+
+
+    $(document).ready(function () {
+        $('#site_add_task_modal').on('shown.bs.modal', function () {
+            $('.choose_site_from_the_list_of_all_site_div').show();
+            $('.toggle_this_on_site_choose').hide();
+        });
+
+        $('.toggle_this_on_site_choose').hide();
+        $('#add_task_for_site').click(function () {
+            var site_id = $('#site_id').val();
+            var site_task = $('#site_task').val();
+            var site_date_given_task = $('#site_date_given_task').val();
+            var skills_required = $('#skills_required_textarea').val();
+            if ($('#site_video_required').prop("checked") == false) {
+                var required_video_evidence = "not required";
+            } else {
+                var required_video_evidence = "required";
+            }
+
+            if ($('#site_image_required').prop("checked") == false) {
+                var required_image_evidence = "not required";
+            } else {
+                var required_image_evidence = "required";
+            }
+
+            if ($('#site_document_required').prop("checked") == false) {
+                var required_document_evidence = "not required";
+            } else {
+                var required_document_evidence = "required";
+            }
+            
+
+            if (site_task == '') {
+                swal(
+                    'Warning',
+                    'Task is empty',
+                    'warning'
+                );
+                return;
+            }
+
+            if (skills_required == '') {
+                swal(
+                    'Warning',
+                    'Skill required is empty.',
+                    'warning'
+                );
+                return;
+            }
+
+            $.ajax({
+                url: "http://34.74.113.124/telco/authentication/save_site_task",
+                method: 'POST',
+                data: {
+                    site_id: site_id,
+                    site_task: site_task,
+                    site_date_given_task: site_date_given_task,
+                    skills_required: skills_required,
+                    required_video_evidence: required_video_evidence,
+                    required_image_evidence: required_image_evidence,
+                    required_document_evidence: required_document_evidence
+                }, success: function (data) {
+                    if (data == 'not_match') {
+                        swal(
+                            'Error',
+                            'No User qualified for the skill you entered',
+                            'error'
+                        )
+                    } else {
+                        swal(
+                            'Success',
+                            'Task Added',
+                            'success'
+                        ).then(function () {
+                            all_task_assigned();
+                            $('#site_add_task_modal').modal('hide');
+                            $('#site_task').val('');
+                            $('#site_date_given_task').val('');
+                            $('#skills_required_textarea').val('');
+                            $('#site_video_required').prop('checked', false);
+                            $('#site_image_required').prop('checked', false);
+                        });
+                    }
+
+                }
+            });
+        });
+        //==============================================================================================
+        $('#edit_site_task_modal').on('show.bs.modal', function (event) {
+
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var edit_site_id = button.data('site_id');
+            var site_task_id = button.data('site_task_id');
+            var site_task = button.data('site_task');
+            var task_date = button.data('task_date');
+            var required_video_evidence = button.data('required_video_evidence');
+            var required_image_evidence = button.data('required_image_evidence');
+            var required_document_evidence = button.data('required_document_evidence');
+
+            $('#edit_site_id_for_site_task').val(edit_site_id);
+            $('#edit_site_task_id').val(site_task_id);
+            $('.edit_site_task').val(site_task);
+            $('#edit_site_date_given_task').val(task_date);
+
+            if (required_video_evidence != 'not required' || null) {
+                $('#edit_site_video_required').prop('checked', true);
+            } else {
+                $('#edit_site_video_required').prop('checked', false);
+            }
+
+            if (required_image_evidence != 'not required' || null) {
+                $('#edit_site_image_required').prop('checked', true);
+            } else {
+                $('#edit_site_image_required').prop('checked', false);
+            }
+            if (required_document_evidence != 'not required' || null) {
+                $('#edit_site_document_required').prop('checked', true);
+            } else {
+                $('#edit_site_document_required').prop('checked', false);
+            }
+
+        });
+
+        $(document).on('click', '#update_site_task', function (e) {
+            e.preventDefault();
+            var edit_site_id = $('#edit_site_id_for_site_task').val();
+            var edit_task_id = $('#edit_site_task_id').val();
+            var edit_site_task = $('#edit_site_task').val();
+            var edit_site_date_given_task = $('#edit_site_date_given_task').val();
+
+            if ($('#edit_site_video_required').prop('checked') == true) {
+                var edit_required_video_evidence = $('#edit_site_video_required').val();
+            } else {
+                var edit_required_video_evidence = 'not required';
+            }
+
+            if ($('#edit_site_image_required').prop('checked') == true) {
+                var edit_required_image_evidence = $('#edit_site_image_required').val();
+            } else {
+                var edit_required_image_evidence = 'not required';
+            }
+
+            if ($('#edit_site_document_required').prop('checked') == true) {
+                var edit_required_document_evidence = $('#edit_site_document_required').val();
+            } else {
+                var edit_required_document_evidence = 'not required';
+            }
+
+
+
+            $.ajax({
+                url: "http://34.74.113.124/telco/authentication/update_site_tasks",
+                method: "POST",
+                data: {
+                    edit_task_id: edit_task_id,
+                    edit_site_task: edit_site_task,
+                    edit_site_date_given_task: edit_site_date_given_task,
+                    edit_required_video_evidence: edit_required_video_evidence,
+                    edit_required_image_evidence: edit_required_image_evidence,
+                    edit_required_document_evidence: edit_required_document_evidence
+                },
+                success: function (data) {
+                    swal(
+                        'success',
+                        'Task Successfully Updated',
+                        'success'
+                    ).then(function (data) {
+                        $('#edit_site_task_modal').modal('hide');
+                        all_task_assigned();
+                    });
+                }
+            });
+        });
+        //=============================================================================================================================
+
+
+
+        $(document).on('click', '.delete_site_task', function (e) {
+            e.preventDefault();
+            var site_id = $(this).attr('site_id');
+            var site_task_id = $(this).attr('task_id');
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+
+                if (result.value) {
+                    $.ajax({
+                        url: "http://34.74.113.124/telco/authentication/delete_task_joined_with_assigned_task",
+                        method: "POST",
+                        data: {
+                            site_task_id: site_task_id,
+                            site_id: site_id
+                        },
+                        success: function (data) {
+                            all_task_assigned();
+                        }
+                    });
+                }
+            });
+        });
+
+
+
+        $('#reschedule_modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); //
+            var task_id = button.data('task_id');
+            var past_task_date = button.data('task_date');
+            $('#reschedule_task_id').val(task_id);
+            $('#reschedule_task_date').val(past_task_date);
+        });
+
+        $(document).on('click', '#rescheulde_update', function (e) {
+            e.preventDefault();
+            var task_id = $('#reschedule_task_id').val();
+            var task_date = $('#reschedule_task_date').val();
+
+            $.ajax({
+                url: "http://34.74.113.124/telco/site/reschedule_task",
+                method: "POST",
+                data: { task_id: task_id, task_date: task_date },
+                success: function (data) {
+                    $('#reschedule_modal').modal('hide');
+                    get_all_site();
+                }
+            });
+        });
+
+        $(document).on('click', '.instruct', function (e) {
+            e.preventDefault();
+            var user_id = $(this).attr('user_id');
+            var task_id = $(this).attr('site_task_id');
+            var buttons = $('<div>')
+                .append(createRecordButton(user_id, task_id, 'record', 'Record Video', function () {
+                    swal.close();
+                })).append(creatBrowseButton(user_id, task_id, 'browse', 'Browse Video', function () {
+                    swal.close();
+                }));
+
+            swal({
+                html: buttons,
+                showConfirmButton: false,
+                showCancelButton: false
+            });
+        });
+
+        $(document).on('click', '.record', function (e) {
+            e.preventDefault();
+            $('.swal2-container').hide();
+        });
+
+        $('#send_to_choose').on('show.bs.modal', function (event) {
+            swal.close();
+            let button = $(event.relatedTarget); // Button that triggered the modal
+            let user_id = button.data('id');
+            let task_id = button.data('site_task_id');
+            $('#user_list1').val(user_id);
+            $('#site_task_id1').val(task_id);
+        });
+
+        $(document).on('click', '.resend', function () {
+            let video_id = $(this).attr('id');
+
+            swal({
+                title: 'Are you sure?',
+                text: "You want to Resend it?",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, resend it!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: "http://34.74.113.124/telco/authentication/resend_video",
+                        method: "POST",
+                        data: { video_id: video_id },
+                        success: function (data) {
+                            swal(
+                                'Success',
+                                'Resend Successfully',
+                                'success'
+                            ).then(function (data) {
+                                all_task_assigned();
+                            });
+                        }
+                    });
+                }
+            });
+
+
+        });
+
+        $(document).on('click', '.delete_video_instruction', function () {
+            let video_id = $(this).attr('id');
+            swal({
+                title: 'Are you sure?',
+                text: "You want to Delete it?",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: "http://34.74.113.124/telco/authentication/delete_video",
+                        method: "POST",
+                        data: { video_id: video_id },
+                        success: function (data) {
+                            swal(
+                                'Success',
+                                'Delete Successfully',
+                                'success'
+                            ).then(function (data) {
+                                get_all_task_assigned();
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+
+        $('#evidence_modal').on('show.bs.modal', function (event) {
+
+            var button = $(event.relatedTarget);
+            var site_task_id = button.data('task_id');
+            var user_id = button.data('user_id');
+            var site_id = button.data('site_id');
+            var team_id = button.data('team_id');
+            var site_task = button.data('site_task');
+
+            $('#evidence_task_id').val(site_task_id);
+            $('.not_satisfied').attr('task_id', site_task_id);
+            $('#set_as_done').attr('task_id', site_task_id);
+            $('#set_as_done').attr('user_id', user_id);
+            $('#set_as_done').attr('site_id', site_id);
+            $('#set_as_done').attr('team_id', team_id);
+            $('#set_as_done').attr('site_task', site_task);
+
+            $.ajax({
+                url: "http://34.74.113.124/telco/authentication/get_completed_task",
+                method: "POST",
+                data: { site_task_id: site_task_id },
+                success: function (data) {
+                    var parsed = $.parseJSON(data);
+                    $.each(parsed, function (i, jsondata) {
+
+                        if (jsondata.task_status == 1) {
+                            $('.not_satisfied').hide();
+                            $('#set_as_done').filter(function () {
+                                return $(this).attr('task_id') == site_task_id
+                            }).val('Task Completed').prop('disabled', true).css('background-color', '#307c64');
+                        }
+
+                    });
+                }
+            });
+
+            $.ajax({
+                url: "http://34.74.113.124/telco/authentication/get_evidence",
+                method: "POST",
+                data: { site_task_id: site_task_id },
+                success: function (data) {
+                    if (data == '[]') {
+                        $('#append_evidence').html('Evidence do not satisfied you, So the system requested the Employee who is assigned to send Another evidence again.');
+                        $('#set_as_done').hide();
+                    } else {
+                        var evidence = ``;
+                        var parsed = $.parseJSON(data);
+                        $.each(parsed, function (i, jsondata) {
+                            if (jsondata.file_type == "video") {
+                                var file_name = jsondata.file;
+                                var text_after = file_name.substr(file_name.indexOf(".") + 1);
+                                evidence += `<h4>Title: ${jsondata.file_title}</h4>
+                                            <video width="100%" height="340" controls>
+                                            <source src="http://34.74.113.124/telco_user/uploads/${jsondata.file}" type="video/${text_after}">Your browser does not support the video tag.</video>
+                                            <button class="btn btn-danger not_satisfied" file_type="${jsondata.file_type}" task_id="${jsondata.task_id}">Fail</button><br>
+                                            `;
+                                $('#set_as_done').show();
+                            } else if(jsondata.file_type == "image") {
+                                evidence += `<h4>Title: ${jsondata.file_title}</h4>
+                                        <img src="http://34.74.113.124/telco_user/uploads/${jsondata.file}" alt="" height="100%" width="100%">
+                                        <button class="btn btn-danger not_satisfied" file_type="${jsondata.file_type}" task_id="${jsondata.task_id}">Not Satisfied</button><br>
+                                        `;
+                                $('#set_as_done').show();
+                            }else{
+                                evidence += `<h4>Title: ${jsondata.file_title}</h4>
+                                        <img src="http://34.74.113.124/telco_user/uploads/${jsondata.file}" alt="" height="100%" width="100%">
+                                        <button class="btn btn-primary downloadFile" file="${jsondata.file}" id="downloadFile">Download ${jsondata.file}</button>
+                                        <button class="btn btn-danger not_satisfied" file_type="${jsondata.file_type}" task_id="${jsondata.task_id}">Not Satisfied</button><br>
+                                        `;
+                                $('#set_as_done').show();
+                            }
+                        });
+                        $('#append_evidence').html(evidence);
+                    }
+
+                }
+            });
+        });
+        $(document).on('click', '.downloadFile', function(e){
+            e.preventDefault();
+
+            let file = $(this).attr('file');
+            // cordova.InAppBrowser.open(`http://34.74.113.124/telco_user/uploads/${file}`, '_system', 'location=yes');
+
+            var ft = new FileTransfer();
+            const button = $(this);
+            button.html("Please Wait");
+            button.attr("disabled", true);
+            ft.download(encodeURI(`http://34.74.113.124/telco_user/uploads/${file}`), `file:///storage/emulated/0/Download/${file}`, 
+            function winf(){
+                swal( 'Success!', `${file} Downloaded Successfully`, 'success' ).then(function () { button.html(`Download ${file}`); button.attr("disabled", false);})
+            },
+            function failf(error) {
+                swal( 'Error!', `Download ${file} Failed`, 'error' ).then(function () { button.html(`Download ${file}`); button.attr("disabled", false);})
+            } 
+            );
+        });
+        
+
+        $(document).on('click', '#set_as_done', function (e) {
+            e.preventDefault();
+            var task_id = $('#evidence_task_id').val();
+            var site_task_id = $(this).attr('task_id');
+            var user_id = $(this).attr('user_id');
+            var site_id = $(this).attr('site_id');
+            var team_id = $(this).attr('team_id');
+            var site_task = $(this).attr('site_task');
+
+            swal({
+                title: 'Is this evidence Satisfied you?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0faf8a',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Set as Done!'
+            }).then((result) => {
+
+                if (result.value) {
+                    $.ajax({
+                        url: "http://34.74.113.124/telco/authentication/set_task_status_to_completed",
+                        method: "POST",
+                        data: { task_id: task_id, site_task_id: site_task_id, user_id: user_id, site_id: site_id, team_id: team_id, site_task: site_task },
+                        success: function (data) {
+                            swal(
+                                'Success',
+                                'Task Completed',
+                                'success'
+                            ).then(function (data) {
+                                get_all_site_list();
+                                $('.not_satisfied').hide();
+                                $('#set_as_done').filter(function () {
+                                    return $(this).attr('task_id') == site_task_id
+                                }).val('Task Completed').prop('disabled', true).css('background-color', '#307c64');
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        $(document).on('click', '.not_satisfied', function (e) {
+            e.preventDefault();
+            var task_id = $(this).attr('task_id');
+            var file_type = $(this).attr('file_type');
+            $.ajax({
+                url: "http://34.74.113.124/telco/authentication/not_satisfied",
+                method: "POST",
+                data: { task_id: task_id, file_type: file_type },
+                success: function (data) {
+                    if (data == 'bad evidence') {
+                        //=============================================================================================================
+                        $.ajax({
+                            url: "http://34.74.113.124/telco/authentication/get_evidence",
+                            method: "POST",
+                            data: { site_task_id: task_id },
+                            success: function (data) {
+                                if (data == '[]') {
+                                    $('#append_evidence').html('Evidence do not satisfied you, So the system requested the Employee who is assigned to send Another evidence again.');
+                                    $('#set_as_done').hide();
+                                } else {
+                                    var evidence = ``;
+                                    var parsed = $.parseJSON(data);
+                                    $.each(parsed, function (i, jsondata) {
+                                        if (jsondata.file_type == "video") {
+                                            var file_name = jsondata.file;
+                                            var text_after = file_name.substr(file_name.indexOf(".") + 1);
+                                            evidence += `<h4>Title: ${jsondata.file_title}</h4>
+                                            <video width="100%" height="340" controls>
+                                            <source src="http://34.74.113.124/telco_user/uploads/${jsondata.file}" type="video/${text_after}">Your browser does not support the video tag.</video>
+                                            <button class="btn btn-danger not_satisfied" file_type="${jsondata.file_type}" task_id="${jsondata.task_id}">Not Satisfied</button><br>
+                                            `;
+                                            $('#set_as_done').show();
+                                        } else {
+                                            evidence += `<h4>Title: ${jsondata.file_title}</h4>
+                                        <img src="http://34.74.113.124/telco_user/uploads/${jsondata.file}" alt="" height="340" width="100%">
+                                        <button class="btn btn-danger not_satisfied" file_type="${jsondata.file_type}" task_id="${jsondata.task_id}">Not Satisfied</button><br>
+                                        `;
+                                            $('#set_as_done').show();
+                                        }
+                                    });
+                                    $('#append_evidence').html(evidence);
+
+                                }
+                            }
+                        });
+                        //================================================================================================================================================
+                    }
+                }
+            });
+
+        });
+
+        $(document).on('click', '#logout', function () {
+            var video_id = $(this).attr('id');
+            swal({
+                title: 'Are you sure?',
+                text: "You want logout?",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Logout'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "index.html";
+                }
+            });
+        });
+        //===========NEW YOLO UPDATES=================================================================================================================================================================
+
+        $('#site_add_task_modal').on('show.bs.modal', function (event) {
+            get_all_site_list()
+        });
+
+        $('#search_site_for_creating_task').keyup(function () {
+            let search_value = $(this).val();
+            $.ajax({
+                url: "http://34.74.113.124/telco/users_tasks/get_site_search_result",
+                method: 'POST',
+                data: {
+                    search_value: search_value
+                }, success: function (data) {
+                    if (data == '[]') {
+                        $('.append_all_sites').html('No result.');
+                    } else {
+                        var site_search_result = `<div class="list-group">`;
+                        var parsed = $.parseJSON(data);
+                        $.each(parsed, function (i, jsondata) {
+                            site_search_result += `<button type="button" class="list-group-item list-group-item-action site_list_btn" site_id="${jsondata.site_id}" site_name="${jsondata.site_name}">${jsondata.site_name}</button>`;
+                        });
+                        site_search_result += `</div>`;
+                        $('.append_all_sites').html(site_search_result);
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.site_list_btn', function (e) {
+            e.preventDefault();
+            let btn_site_id = $(this).attr('site_id');
+            let btn_site_name = $(this).attr('site_name');
+            $('#site_id').val(btn_site_id);
+            $('.site_name').val(btn_site_name);
+            $('.append_site_name').html(btn_site_name);
+
+            $('.choose_site_from_the_list_of_all_site_div').hide();
+            $('.toggle_this_on_site_choose').show();
+        });
+
+        $(document).on('click', '.site_name', function () {
+            $('.choose_site_from_the_list_of_all_site_div').show();
+            $('.toggle_this_on_site_choose').hide();
+        });
+
+        all_task_assigned();
+        get_all_task_assigned();
+
+        $('#search_site_name').keyup(function () {
+            let search_site_name_value = $(this).val();
+            call_search_result(search_site_name_value);
+        });
+
+    });
+
+    //==New Functions===============================================================================================================================================================================================
+    function get_all_site_list() {
+        $.ajax({
+            url: 'http://34.74.113.124/telco/users_tasks/get_all_sites',
+            success: function (data) {
+                if (data == '[]') {
+                    $('.append_all_sites').html('There are no site yet.');
+                } else {
+                    var site_list = `<div class="list-group">`;
+                    var parsed = $.parseJSON(data);
+                    $.each(parsed, function (i, jsondata) {
+                        site_list += `<button type="button" class="list-group-item list-group-item-action site_list_btn" site_id="${jsondata.site_id}" site_name="${jsondata.site_name}">${jsondata.site_name}</button>`;
+                    });
+                    site_list += `</div>`;
+                    $('.append_all_sites').html(site_list);
+                }
+            }
+        });
+    }
+
+    function refresh_search_result(search_site_name_value) {//refreshes search
+        setInterval(function () {
+            call_search_result(search_site_name_value)
+        }, 10000);
+    }
+
+    function call_search_result(search_site_name_value) {
+        $.ajax({
+            url: 'http://34.74.113.124/telco/users_tasks/search_site_name',
+            method: 'POST',
+            data: {
+                search_site_name_value: search_site_name_value
+            },
+            success: function (data) {
+                display_conditional_task(data);
+            }
+        });
+    }
+
+    function get_all_task_assigned() {
+        setInterval(function () {
+            all_task_assigned();
+        }, 10000);
+    }
+
+    function all_task_assigned() {
+        $.ajax({
+            url: 'http://34.74.113.124/telco/users_tasks/get_all_tasks_assigned',
+            success: function (data) {
+                display_conditional_task(data);
+            }
+        });
+    }
+
+    function display_conditional_task(data) {
+        if (data == '[]') {
+            $('.append_tasks').html('No Tasks Yet.');
+        } else {
+            var show_task_created = `<div class="grid-container">`;
+            var parsed = $.parseJSON(data);
+            $.each(parsed, function (i, jsondata) {
+                show_task_created += `  <div class="grid-item task_container">
+                                                <ul class="list-group list-group-flush" style="background-color:#f5f5f5">
+                                                    <li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Site Name:</span> &nbsp;${jsondata.site_name}</li>
+                                                    <li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Assinged to:</span> &nbsp;${jsondata.first_name} ${jsondata.last_name}</li>
+                                                    <li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Task:</span> &nbsp;${jsondata.site_task}</li>`;
+
+                if (jsondata.task_date == today()) {
+                    show_task_created += `<li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Date:</span> &nbsp;<span style="color:#59B359">Today</span></li>`;
+                } else if (jsondata.task_date < today()) {
+                    show_task_created += `<li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Date:</span> &nbsp;<span style="color:#D3514D">${jsondata.task_date}(Past)</span></li>`;
+                } else {
+                    show_task_created += `<li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Date:</span> &nbsp;${jsondata.task_date}</li>`;
+                }
+
+                show_task_created += `<li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Skills Required:</span> &nbsp;${jsondata.skills_required}</li>`;
+
+                show_task_created += `<li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Evidence Required:</span> &nbsp;`;
+                if (jsondata.required_video_evidence == 'required') {
+                    show_task_created += `Video &nbsp;`;
+                }
+                if (jsondata.required_image_evidence == 'required') {
+                    show_task_created += `Image &nbsp;`;
+                }
+                if (jsondata.required_document_evidence == 'required') {
+                    show_task_created += `Document &nbsp;`;
+                }
+                show_task_created += `</li >`;
+                //=================================================================================================================================================
+
+                if (jsondata.task_status != 0) {//set to completed on pending
+                    show_task_created += `<li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Status: </span> &nbsp;<span style="color:#58B258">Completed</span></li>`;
+                } else {
+                    show_task_created += `<li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Status: </span> &nbsp;<span style="color:#D3514D">Pending</span></li>`;
+                }
+
+                //===================================================================================================================================================
+                show_task_created += `<li style="background-color:inherit" class="list-group-item"><span style="color: #32568f;">Actions:</span><br>`;
+
+                if (jsondata.task_status != 0) {//if completed
+                    show_task_created += ` <button style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #58B258;color:#58B258" data-task_id="${jsondata.site_task_id}" data-site_task="${jsondata.site_task}" data-user_id="${jsondata.user_id}" data-site_id="${jsondata.site_id}" data-team_id="${jsondata.team_id}" data-evidence_id="${jsondata.evidence_id}" data-toggle="modal" data-target="#evidence_modal">View Evidence</button>`;
+                } else {
+                    //-----------------------------------------------------------------------------------
+                    if (jsondata.video_id != null) {//if there instruction sent
+                        show_task_created += `<button style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #D3514D;color:#D3514D" class="delete_video_instruction" id="${jsondata.video_id}">Delete Instruction</button>`;
+                    } else { //if no instruction yet
+                        show_task_created += `<button style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #E9A84C;color:#E9A84C" class="instruct" user_id="${jsondata.user_id}" site_task_id="${jsondata.site_task_id}">Instruct</button>`;
+                    }
+                    //-----------------------------------------------------------------------------------
+
+                    if (jsondata.played == 1 && jsondata.request == 1) {//if re user requested to send the evidence again
+                        show_task_created += `<button type="button" style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #4087C4;color:#4087C4;" class="resend" id="${jsondata.video_id}">Resend</button>`;
+                    }
+                    //-----------------------------------------------------------------------------------
+
+                    if (jsondata.sent_to_admin == 0) { //if the user evidence is not yet been submitted, it can be deleted or can be edit
+                        show_task_created += ` <button style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #4087C4;color:#4087C4;" data-toggle="modal" data-target="#edit_site_task_modal"
+                                                        data-site_id="${jsondata.site_id}"
+                                                        data-site_task_id="${jsondata.site_task_id}"
+                                                        data-site_task="${jsondata.site_task}"
+                                                        data-task_date="${jsondata.task_date}"
+                                                        data-required_video_evidence="${jsondata.required_video_evidence}"
+                                                        data-required_image_evidence="${jsondata.required_image_evidence}"
+                                                        data-required_document_evidence="${jsondata.required_document_evidence}"
+                                                        >Edit</button>`;
+                        show_task_created += ` <button style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #D3514D;color:#D3514D" class="delete_site_task" site_id="${jsondata.site_id}" task_id="${jsondata.site_task_id}">&times;</button>`;
+                    }
+                    //-----------------------------------------------------------------------------------
+
+                    if (jsondata.send_image != 0 || jsondata.send_video != 0 && jsondata.sent_to_admin == 1) {// if the evidence has been sent
+                        show_task_created += `&nbsp;<button type="button" style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #58B258;color:#58B258;" id="evidence_btn${jsondata.site_task_id}" data-task_id="${jsondata.site_task_id}" data-site_task="${jsondata.site_task}" data-user_id="${jsondata.user_id}" data-site_id="${jsondata.site_id}" data-team_id="${jsondata.team_id}" data-evidence_id="${jsondata.evidence_id}" data-toggle="modal" data-target="#evidence_modal">View Evidence</button>`;
+                    }
+
+                    if (jsondata.send_image == 0 && jsondata.send_video == 0 && jsondata.sent_to_admin != 0) {
+                        show_task_created += `<button type="button" style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #454D56;color:#454D56;" id="evidence_btn${jsondata.site_task_id}" data-task_id="${jsondata.site_task_id}" data-site_task="${jsondata.site_task}" data-user_id="${jsondata.user_id}" data-site_id="${jsondata.site_id}" data-team_id="${jsondata.team_id}" data-evidence_id="${jsondata.evidence_id}" data-toggle="modal" data-target="#evidence_modal" >Not Satisfied</button>`;
+                        show_task_created += ` <button style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #4087C4;color:#4087C4;" data-toggle="modal" data-target="#edit_site_task_modal"
+                                                        data-site_id="${jsondata.site_id}"
+                                                        data-site_task_id="${jsondata.site_task_id}"
+                                                        data-site_task="${jsondata.site_task}"
+                                                        data-task_date="${jsondata.task_date}"
+                                                        data-required_video_evidence="${jsondata.required_video_evidence}"
+                                                        data-required_image_evidence="${jsondata.required_image_evidence}"
+                                                        data-required_document_evidence="${jsondata.required_document_evidence}"
+                                                        >Edit</button>`;
+                        show_task_created += ` <button style="margin:2px;background-color:white;border-radius:4px;border: 2px solid #D3514D;color:#D3514D" class="delete_site_task" site_id="${jsondata.site_id}" task_id="${jsondata.site_task_id}">&times;</button>`;
+                    }
+
+                }
+
+                show_task_created += `</li>`;
+
+                show_task_created += `</ul >
+                                            </div > `;
+            });
+            show_task_created += `</div >`;
+            $('.append_tasks').html(show_task_created);
+        }
+    }
+</script>
+</body>
+
+</html>

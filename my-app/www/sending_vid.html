@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+    <title>Telco</title>
+    <style>
+        .logout {
+            text-align: right;
+        }
+
+        .per_task {
+            display: list-item;
+            margin-left: 10px;
+        }
+
+        .l {
+            position: absolute;
+            top: 25%;
+            left: 35px;
+            margin-left: 10px;
+            transform: translate(-25%);
+            top: 15px;
+            width: 100px;
+        }
+    </style>
+
+</head>
+
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header" style="position:relative;">
+            <b class="l" style="color:#0981b5;">YOLO-TELCO</b>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                    </li>
+                    <li>
+                        <a href="admin_users_view.html"><i class="fa fa-users fa-fw"></i> Employees Details</a>
+                    </li>
+                    <li>
+                        <a href="force_logout.html" class="force_logout"><i class="fa fa-user fa-fw"></i> Logged-in
+                            Employees</a>
+                    </li>
+                    <li>
+                        <a href="sites.html"><i class="fa fa-globe fa-fw"></i>Sites</a>
+                    </li>
+                    <li>
+                        <a href="site_task_status.html"><i class="fa fa-globe fa-fw"></i> Site Tasks</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-video-camera fa-fw"></i> <span>Send Video
+                                Instructions for Task</span></a>
+                    </li>
+                    <li>
+                        <a href="manage_team.html"><i class="fa fa-list fa-fw"></i> Manage Team</a>
+                    </li>
+
+
+                    <li>
+                        <a href="admin_map_view.html"><i class="fa fa-map-marker fa-fw"></i> Map</a>
+                    </li>
+
+
+                    <li>
+                        <a href="invoice.html"><i class="fa fa-money fa-fw"></i> Invoice</a>
+                    </li>
+
+                    <li>
+                        <a href="#" id="logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Send Video to Employee</h2>
+            </div>
+            <!-- /.col-lg-12 -->
+
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <label>List of Sites</label>
+                    </div>
+                    <div class="panel-body">
+                        <div style="margin-bottom: 10px;" class="input-group custom-search-form">
+                            <input type="text" id="search_site_for_sending_vid" class="form-control" value=""
+                                placeholder="Search for Site Name ...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="search_site_for_sending_btn" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="append_site_to_send_video_what_to_do"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#wrapper -->
+
+<div class="modal fade sign_up_modal" id="send_to" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">Record Video</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="add_form">
+                    <input type="text" id="users_list">
+                    <input type="text" id="site_task_id">
+                    <input type="text" id="video_file">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Video Title:</label>
+                        <input type="text" class="form-control" id="video_name" name="video_name">
+                    </div>
+                    <!-- <label for="name" class="col-form-label">Send to:</label>
+                    <div class="select_user"></div> -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" name="close"
+                    id="close">Close</button>
+                <button id="send_video" style="background-color:#0981b5;color:#fff;" class="btn">Send</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="send_to_choose" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">Send Video</h4>
+            </div>
+            <div class="modal-body">
+                <form id="send_choose">
+                    <div id="choose_loading"></div>
+                    <input type="text" id="user_list1" name="users">
+                    <input type="text" id="site_task_id1" name="site_task_id">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Choose file:</label>
+                        <input type="file" class="form-control" id="choose_vid" name="choose_vid">
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Video Title:</label>
+                        <input type="text" class="form-control" id="video_title" name="video_title">
+                    </div>
+                    <!-- <label for="name" class="col-form-label">Send to:</label>
+                    <div class="select_user1"></div> -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" name="close"
+                    id="close">Close</button>
+                <button id="send_c" style="background-color:#0981b5;color:#fff;" class="btn">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="dist/js/sb-admin-2.js"></script>
+
+
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/record.js"></script>
+<script>
+    function today() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = "0" + mm;
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        return today;
+    }
+    function get_all_task_that_was_assigned() {
+        $.ajax({
+            url: "http://34.74.113.124/telco/site/get_all_site_that_was_already_assigned",
+            success: function (data) {
+                if (data == '[]') {
+                    $('.append_site_to_send_video_what_to_do').html('You did not Assigned Task to anyone');
+                } else {
+                    var assigned = ``;
+                    var parsed = $.parseJSON(data);
+                    $.each(parsed, function (i, jsondata) {
+                        assigned += `<div style="background-color:#d4d5d6;padding:4px;border-radius:6px;margin-bottom:10px;">
+                                        <label>${jsondata.site_name} - <span class="name_assigned_to${jsondata.site_id}"></span></label>
+                                        <hr style="height:1px; border:none; color:#000; background-color:#9c9d9e;margin:4px;">
+                                        <div class="append_task_of_each_site${jsondata.site_id}" style="margin-bottom:10px;"></div>
+                                    </div>`;
+
+                        $.ajax({
+                            url: "http://34.74.113.124/telco/site/get_the_name_of_user_the_site_was_assigned",
+                            method: "POST",
+                            data: { site_id: jsondata.site_id },
+                            success: function (data) {
+                                if (data == '[]') {
+                                    $('.name_assigned_to' + jsondata.site_id + '').html('Not Assigned Yet.');
+                                } else {
+                                    var name = ``;
+                                    var parsed = $.parseJSON(data);
+                                    $.each(parsed, function (i, jsondata) {
+
+                                        if (jsondata.first_name == null) {
+                                            name += `Assigned to Team ${jsondata.team_name}`;
+                                        } else if (jsondata.team_name == null) {
+                                            name += `Assigned to ${jsondata.first_name} ${jsondata.last_name}`;
+                                        }
+
+                                    });
+                                    $('.name_assigned_to' + jsondata.site_id + '').html(name);
+                                }
+                            }
+                        });
+
+                        $.ajax({
+                            url: "http://34.74.113.124/telco/site/get_site_task",
+                            method: "POST",
+                            data: { site_id: jsondata.site_id },
+                            success: function (data) {
+                                if (data != '[]') {
+                                    var site_task = `<span>Site Tasks</span>
+                                                <table class="table table-bordered"  style="width:100%;height:100%;background-color:#9c9d9e;color:#fff;margin-bottom:4px;">
+                                                    <tbody`;
+
+                                    var parsed = $.parseJSON(data);
+                                    $.each(parsed, function (i, jsondata) {
+                                        site_task += `        <tr>
+                                                        <td>${jsondata.site_task}</td>
+                                                        <td>`;
+                                        if (jsondata.task_date == today()) {
+                                            site_task += `<span style="color:#0C7554" class=""><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Today</span>`;
+                                        } else if (jsondata.task_date < today()) {
+                                            site_task += `<span style="color:#591409;padding:8px;border-radius:6px;cursor:default;pointer-events:none;" class="btn"><div style="width:65px;word-wrap:break-word;"><p style="margin:0;">${jsondata.task_date}</p><p style="margin:0;"><i class="fa fa-calendar" aria-hidden="true"></i> Past</p></div></span>`;
+                                        } else {
+                                            site_task += `${jsondata.task_date}`;
+                                        }
+                                        site_task += `  </td><td><div class="send_video_div_container${jsondata.site_id}"><p><button type="button" class="btn btn-primary record" id="${jsondata.user_id}" site_task_id="${jsondata.site_task_id}">Record</button></p>
+                                                <p><button type="button" class="btn btn-primary browse" data-id="${jsondata.u_user_id}" data-site_task_id="${jsondata.site_task_id}" data-toggle="modal" data-target="#send_to_choose">Browse</button></p>`;
+                                        if (jsondata.video_id != null) {
+                                            site_task += `<button type="button" class="btn btn-danger delete" id="${jsondata.video_id}">Delete</button></p>`;
+                                        }
+
+                                        if (jsondata.played == 1 && jsondata.request == 1) {
+                                            site_task += `<button type="button" class="btn btn-primary resend" id="${jsondata.video_id}">Resend</button></p>`;
+                                        }
+
+
+                                        site_task += `  </div></td>
+                                                     </tr>`;
+                                    });
+                                    site_task += `          </tbody>
+                                                </table>
+                                                `;
+
+                                    $('.append_task_of_each_site' + jsondata.site_id + '').html(site_task);
+                                } else {
+                                    var no_task = `There are no tasks assigned for this site yet.
+                                             `;
+                                    $('.append_task_of_each_site' + jsondata.site_id + '').html(no_task);
+                                }
+                            }
+                        });
+
+                    });
+                    $('.append_site_to_send_video_what_to_do').html(assigned);
+                }
+            }
+        });
+    }
+
+
+    function show_search_result(site_id) {
+        $.ajax({
+            url: "http://34.74.113.124/telco/site/show_search_site_result_for_sending_vid",
+            method: "POST",
+            data: { site_id: site_id },
+            success: function (data) {
+                if (data == '[]') {
+                    $('.append_site_to_send_video_what_to_do').html('You did not Assigned Task to anyone');
+                } else {
+                    var assigned = ``;
+                    var parsed = $.parseJSON(data);
+                    $.each(parsed, function (i, jsondata) {
+                        assigned += `<div style="background-color:#d4d5d6;padding:4px;border-radius:6px;margin-bottom:10px;">
+                                        <label>${jsondata.site_name} - <span class="name_assigned_to${jsondata.site_id}"></span></label>
+                                        <hr style="height:1px; border:none; color:#000; background-color:#9c9d9e;margin:4px;">
+                                        <div class="append_task_of_each_site${jsondata.site_id}" style="margin-bottom:10px;"></div>
+                                    </div>`;
+
+                        $.ajax({
+                            url: "http://34.74.113.124/telco/site/get_the_name_of_user_the_site_was_assigned",
+                            method: "POST",
+                            data: { site_id: jsondata.site_id },
+                            success: function (data) {
+                                if (data == '[]') {
+                                    $('.name_assigned_to' + jsondata.site_id + '').html('Not Assigned Yet.');
+                                } else {
+                                    var name = ``;
+                                    var parsed = $.parseJSON(data);
+                                    $.each(parsed, function (i, jsondata) {
+
+                                        if (jsondata.first_name == null) {
+                                            name += `Assigned to Team ${jsondata.team_name}`;
+                                        } else if (jsondata.team_name == null) {
+                                            name += `Assigned to ${jsondata.first_name} ${jsondata.last_name}`;
+                                        }
+
+                                    });
+                                    $('.name_assigned_to' + jsondata.site_id + '').html(name);
+                                }
+                            }
+                        });
+
+                        $.ajax({
+                            url: "http://34.74.113.124/telco/site/get_site_task",
+                            method: "POST",
+                            data: { site_id: jsondata.site_id },
+                            success: function (data) {
+                                if (data != '[]') {
+                                    var site_task = `<span>Site Tasks</span>
+                                                <table class="table table-bordered"  style="width:100%;height:100%;background-color:#9c9d9e;color:#fff;margin-bottom:4px;">
+                                                    <tbody`;
+
+                                    var parsed = $.parseJSON(data);
+                                    $.each(parsed, function (i, jsondata) {
+                                        site_task += `        <tr>
+                                                        <td>${jsondata.site_task}</td>
+                                                        <td>`;
+                                        if (jsondata.task_date == today()) {
+                                            site_task += `<span style="color:#0C7554" class=""><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Today</span>`;
+                                        } else if (jsondata.task_date < today()) {
+                                            site_task += `<span style="color:#591409;padding:8px;border-radius:6px;cursor:default;pointer-events:none;" class="btn"><div style="width:65px;word-wrap:break-word;"><p style="margin:0;">${jsondata.task_date}</p><p style="margin:0;"><i class="fa fa-calendar" aria-hidden="true"></i> Past</p></div></span>`;
+                                        } else {
+                                            site_task += `${jsondata.task_date}`;
+                                        }
+                                        site_task += `  </td>
+                                                        <td>
+                                                        <div class="send_video_div_container${jsondata.site_id}">
+                                                            <p><input type="button" class="btn btn-primary" value="Record Video"></p>
+                                                            <p><input type="button" class="btn btn-primary" value="Browse Video"></p>
+                                                        </div>`;
+
+                                        site_task += `  </td>
+                                                     </tr>`;
+                                    });
+                                    site_task += `          </tbody>
+                                                </table>
+                                                `;
+
+                                    $('.append_task_of_each_site' + jsondata.site_id + '').html(site_task);
+                                } else {
+                                    var no_task = `There are no tasks assigned for this site yet.
+                                             <p><button class="btn btn-primary add_more_task_for_site" data-toggle="modal" data-target="#site_add_task_modal" data-site_id="${jsondata.site_id}" data-site_name="${jsondata.site_name}">Add Task for this site</button></p>`;
+                                    $('.append_task_of_each_site' + jsondata.site_id + '').html(no_task);
+                                }
+                            }
+                        });
+
+                    });
+                    $('.append_site_to_send_video_what_to_do').html(assigned);
+                }
+            }
+        });
+    }
+
+
+
+    $(document).ready(function () {
+        get_all_task_that_was_assigned();
+        $("#search_site_for_sending_vid").keyup(function () {
+            var search_name = $(this).val();
+            if (search_name != '') {
+                $.ajax({
+                    url: "http://34.74.113.124/telco/site/get_search_site_result",
+                    method: "POST",
+                    data: { search_name: search_name },
+                    success: function (data) {
+                        if (data == '[]') {
+                            var search_result = `No Result`;
+                        } else {
+                            var parsed = $.parseJSON(data);
+                            $.each(parsed, function (i, jsondata) {
+                                var site_id = jsondata.site_id;
+                                show_search_result(site_id);
+                            });
+                        }
+                        $('.append_site_to_send_video_what_to_do').html(search_result);
+                    }
+                });
+            } else {
+                get_all_task_that_was_assigned();
+            }
+        });
+
+        $('#send_to_choose').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget); // Button that triggered the modal
+            let user_id = button.data('id');
+            let task_id = button.data('site_task_id');
+            $('#user_list1').val(user_id);
+            $('#site_task_id1').val(task_id);
+        });
+
+        $(document).on('click', '.resend', function () {
+            let video_id = $(this).attr('id');
+
+            swal({
+                title: 'Are you sure?',
+                text: "You want to Resend it?",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, resend it!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: "http://34.74.113.124/telco/authentication/resend_video",
+                        method: "POST",
+                        data: { video_id: video_id },
+                        success: function (data) {
+                            swal(
+                                'Success',
+                                'Resend Successfully',
+                                'success'
+                            ).then(function (data) {
+                                location.reload();
+                            });
+                        }
+                    });
+                }
+            });
+
+
+        });
+
+        $(document).on('click', '.delete', function () {
+            let video_id = $(this).attr('id');
+
+            swal({
+                title: 'Are you sure?',
+                text: "You want to Delete it?",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: "http://34.74.113.124/telco/authentication/delete_video",
+                        method: "POST",
+                        data: { video_id: video_id },
+                        success: function (data) {
+                            swal(
+                                'Success',
+                                'Delete Successfully',
+                                'success'
+                            ).then(function (data) {
+                                location.reload();
+                            });
+                        }
+                    });
+                }
+            });
+
+
+        });
+
+
+        $(document).on('click', '#logout', function () {
+            var video_id = $(this).attr('id');
+            swal({
+                title: 'Are you sure?',
+                text: "You want logout?",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Logout'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "index.html";
+                }
+            });
+        });
+    });// document ready closing
+</script>
+
+</body>
+
+</html>

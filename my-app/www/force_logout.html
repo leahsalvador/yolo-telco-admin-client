@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+    <title>Telco</title>
+    <style>
+        .logout {
+            text-align: right;
+        }
+
+        .per_task {
+            display: list-item;
+            margin-left: 10px;
+        }
+
+        .l {
+            position: absolute;
+            top: 25%;
+            left: 35px;
+            margin-left: 10px;
+            transform: translate(-25%);
+            top: 15px;
+            width: 100px;
+        }
+    </style>
+
+</head>
+
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header" style="position:relative;">
+            <b class="l" style="color:#0981b5;">YOLO-TELCO</b>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                    </li>
+                    <li>
+                        <a href="admin_users_view.html"><i class="fa fa-users fa-fw"></i> Employees Details</a>
+                    </li>
+                    <li>
+                        <a href="" class="force_logout"><i class="fa fa-user fa-fw"></i> Logged-in
+                            Employees</a>
+                    </li>
+                    <li>
+                        <a href="sites.html"><i class="fa fa-globe fa-fw"></i>Sites</a>
+                    </li>
+                    <li>
+                        <a href="site_task_status.html"><i class="fa fa-tasks fa-fw"></i> Manage Tasks </a>
+                    </li>
+                    
+                    <li>
+                        <a href="manage_video.html"><i class="fa fa-video-camera fa-fw"></i> <span> Manage Video</span></a>
+                    </li>
+
+                    <!-- <li>
+                        <a href="sending_vid.html"><i class="fa fa-video-camera fa-fw"></i> <span>Send Video
+                                Instructions for Task</span></a>
+                    </li> -->
+                    <li>
+                        <a href="manage_team.html"><i class="fa fa-list fa-fw"></i> Manage Team</a>
+                    </li>
+                    <li>
+                        <a href="admin_map_view.html"><i class="fa fa-map-marker fa-fw"></i> Map</a>
+                    </li>
+
+
+                    <li>
+                        <a href="invoice.html"><i class="fa fa-money fa-fw"></i> Invoice</a>
+                    </li>
+
+                    <li>
+                        <a href="#" id="logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">List of Logged-in Employees</h2>
+            </div>
+            <!-- /.col-lg-12 -->
+
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p>
+                            <div style="display:flex;">
+                                <div
+                                    style="height:10px;width:10px;background-color:#B2B3B6;margin-top:5px;border-radius:50%;">
+                                </div> &nbsp;&nbsp; Logged-in but Not Active.
+                            </div>
+                        </p>
+                        <p>
+                            <div style="display:flex;">
+                                <div
+                                    style="height:10px;width:10px;background-color:#42B72A;margin-top:5px;border-radius:50%;">
+                                </div> &nbsp;&nbsp; Logged-in and Active.
+                            </div>
+                        </p>
+                    </div>
+                    <div class="panel-body">
+                        <button class="btn logout_all_employees"
+                            style="background-color:#0C7554;color:#fff;margin-bottom:8px;"><i
+                                class="fa fa-sign-out fa-fw"></i> Logout All Employees</button>
+                        <table width="100%" class="table table-striped table-bordered table-hover"
+                            id="dataTables-force_logout">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+
+
+
+<div class="modal fade sign_up_modal" id="#" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">Add User</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" name="close" id="">Close</button>
+                <input type="button" id="register_user" class="btn btn-primary" name="register_user" value="Submit">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade sign_up_modal" id="#" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style=" background-color: #0981b5;border-radius: 6px 6px 0 0;color:#fff;">
+                <button type="button" data-dismiss="modal" class="close" data-number="2" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">Edit User</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" name="close"
+                        id="close">Close</button>
+                    <input type="button" id="update_user" class="btn btn-primary" name="update" value="Submit">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <script src="dist/js/sb-admin-2.js"></script>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script>
+
+        function moveBackwardHourFromNow() {
+            var d = new Date($.now());
+            if (d.getHours() == 0) {
+                var current_hour = parseFloat(d.getHours()) - parseFloat(0);
+            } else {
+                var current_hour = parseFloat(d.getHours()) - parseFloat(1);
+            }
+            var nowAddHour = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " " + current_hour + ":" + d.getMinutes() + ":" + d.getSeconds();
+            return moment(nowAddHour).format('YYYY-MM-DD HH:mm:ss');
+        }
+
+        function dateAndTimeNow() {
+            var d = new Date($.now());
+            var now = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+            return moment(now).format('YYYY-MM-DD HH:mm:ss');
+        }
+
+
+
+        var table_user = $('#dataTables-force_logout').DataTable({
+            "ajax": "http://34.74.113.124/telco/authentication/get_all_online_employees",
+            "columns": [
+                { 'data': "user_id" },
+                {
+                    'data': null, 'render': function (data, type, row) {
+                        if (row.last_activity < moveBackwardHourFromNow() || row.last_activity > dateAndTimeNow()) {
+                            return `<div style="display:flex;"><div style="height:10px;width:10px;background-color:#B2B3B6;margin-top:5px;border-radius:50%;"></div> &nbsp;&nbsp; ${row.first_name}  ${row.last_name}</div>`;
+                        } else {
+                            return `<div style="display:flex;"><div style="height:10px;width:10px;background-color:#42B72A;margin-top:5px;border-radius:50%;"></div> &nbsp;&nbsp; ${row.first_name}  ${row.last_name}</div>`;
+                        };
+                    }
+                },
+
+                {
+                    'data': null, 'render': function (data, type, row) {
+                        return `<button type="button" user_id="${row.user_id}" class="btn force_logout_user" style="background-color:#0C7554;color:#fff"><i class="fa fa-sign-out fa-fw"></i> Logout</button>`;
+                    }
+                }
+            ], responsive: true, "order": [[0, "desc"]], retrieve: true, "language": { "emptyTable": "All Employees Are Not Logged-in" }
+        });
+
+        function show_online() {
+            myVar = setInterval(alertFunc, 3000);
+        }
+
+        function alertFunc() {
+            setInterval(function () {
+                table_user.ajax.reload();
+            }, 3000);
+        }
+
+        $(document).ready(function () {
+            show_online();
+
+            $(document).on('click', '.force_logout_user', function (e) {
+                e.preventDefault();
+                var user_id = $(this).attr('user_id');
+
+                swal({
+                    title: 'Are you sure',
+                    text: "Your want to force the user to logout?",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+
+                    if (result.value) {
+                        $.ajax({
+                            url: "http://34.74.113.124/telco/authentication/logout_login_user",
+                            method: "POST",
+                            data: { user_id: user_id },
+                            success: function (data) {
+                                swal(
+                                    'Success',
+                                    'user is logged out.',
+                                    'success'
+                                ).then(function () {
+                                    table_user.ajax.reload();
+                                });
+                            }
+                        });
+
+                    }
+                });
+
+            });
+
+            $(document).on('click', '.logout_all_employees', function (e) {
+                e.preventDefault();
+
+                swal({
+                    title: 'Are you sure',
+                    text: "Your want to force all Employees to logout?",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+
+                    if (result.value) {
+                        $.ajax({
+                            url: "http://34.74.113.124/telco/authentication/logout_logout_all_users",
+                            success: function (data) {
+                                swal(
+                                    'Success',
+                                    'all users are logged out.',
+                                    'success'
+                                ).then(function () {
+                                    table_user.ajax.reload();
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+            $(document).on('click', '#logout', function () {
+                var video_id = $(this).attr('id');
+                swal({
+                    title: 'Are you sure?',
+                    text: "You want logout?",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Logout'
+                }).then((result) => {
+                    if (result.value) {
+                        window.location.href = "index.html";
+                    }
+                });
+            });
+
+        });
+
+    </script>
+    </body>
+
+</html>'
